@@ -23,15 +23,18 @@ router.get(
       email: user.email,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '8h' });
+    console.log('Generated JWT:', token);
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5174';
-    const userStr = encodeURIComponent(JSON.stringify({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    }));
-    res.redirect(`${frontendUrl}/?token=${token}&user=${userStr}`);
+const userStr = encodeURIComponent(JSON.stringify({
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+}));
+
+console.log(`Redirecting to: ${frontendUrl}/?token=${token}&user=${userStr}`);
+res.redirect(`${frontendUrl}/?token=${token}&user=${userStr}`);
   }
 );
 
